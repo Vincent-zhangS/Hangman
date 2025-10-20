@@ -1,7 +1,7 @@
 var POSSIBLE_WORDS = ["obdurate","verisimiltude","defenstrate","obsequious","dissonant","today","idempotent"];
 
-var randomIndex = Math.random()*POSSIBLE_WORDS.length
-var word = POSSIBLE_WORDS[randomIndex]
+
+var word = "";
 
 function newGame(){
     var randomIndex = parseInt(Math.random() * POSSIBLE_WORDS.length)
@@ -13,6 +13,22 @@ function newGame(){
     var clue = document.getElementById("clue");
     clue.innerHTML = clueString;
 }
-function guess(){
-    
+function guessLetter(){
+    var input = document.getElementById("guess");
+    var letter = input.ariaValueMax;
+    guesses+=letter;
+    updatePage();
+}
+function updatePage(){
+    var clueString ="";
+    for(var i = 0;i < word.length; i++){
+        var currentLetter = word.charAt(i)
+        if(guessLetter.indexOf(currentLetter)){// You Guessed it
+        clueString += currentLetter + " ";
+        }
+        else
+            clueString+= "_ ";
+    }
+var clue = document.getElementById("clue");
+    clue.innerHTML = clueString;
 }
