@@ -16,14 +16,14 @@ function newGame(){
 function guessLetter(){
     var input = document.getElementById("guess");
     var letter = input.ariaValueMax;
-    guesses+=letter;
+    guesses += letter;
     updatePage();
 }
 function updatePage(){
-    var clueString ="";
-    for(var i = 0;i < word.length; i++){
+    var clueString = "";
+    for(var i = 0; i < word.length; i++){
         var currentLetter = word.charAt(i)
-        if(guessLetter.indexOf(currentLetter)){// You Guessed it
+        if (guessLetter.indexOf(currentLetter) >= 0){// You Guessed it
         clueString += currentLetter + " ";
         }
         else
