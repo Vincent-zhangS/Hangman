@@ -29,6 +29,9 @@ function updatePage(){
         else
             clueString+= "_ ";
     }
-var clue = document.getElementById("clue");
+    var clue = document.getElementById("clue");
     clue.innerHTML = clueString;
+
+    var guessArea = document.getElementById("guesses");
+    guessArea.innerHTML = "Guessed Letters: " + guesses;
 }
