@@ -11,24 +11,53 @@ var guesses = "";
 var MAX_GUESSES = 6;
 var guess_count = 0;
 function newGame() {
-  var randomIndex = parseInt(Math.random() * POSSIBLE_WORDS.length);
-  word = POSSIBLE_WORDS[randomIndex];
-  guesses = "";
-  guess_count = MAX_GUESSES;
-  updatepage();
+    var randomIndex = parseInt(Math.random() * POSSIBLE_WORDS.length);
+    word = POSSIBLE_WORDS[randomIndex];
+    guesses = "";
+    spaced_word = "";
+    document.getElementById("usedletters").style.color = "initial";
+
+    guess_count = MAX_GUESSES;
+    for (var i = 0; i < word.length; i++) {
+        spaced_word += word[i] + " ";
+    }
+    updatePage();
 }
 
 function guessLetter() {
   var input = document.getElementById("guess");
   
-  //Makes it so it doesnt matter if its upper or lower case
+  // makes it so it doesnt matter if its upper/lower case 
   var letter = input.value.toLowerCase(); 
   var lowerWord = word.toLowerCase();    
+
+  // makes it so you're not allowed to guess if its not a new game
+  if (word == "") {
+    document.getElementById("usedletters").innerHTML = "start new game first";
+    input.value = "";
+    return;
+  }
+
+  // no guessing after game over
+  if (guess_count <= 0) {
+    document.getElementById("usedletters").innerHTML = "game over play again.";
+    input.value = "";
+    return;
+  }
+
+  // cant guess same letter twice
+  if (guesses.includes(letter)) {
+    document.getElementById("usedletters").innerHTML = `you already tried that"${letter}", try another letter.`;
+    input.value = "";
+    return;
+  }
 
   if (lowerWord.indexOf(letter) < 0) {
     guess_count--;
   }
   guesses += letter;
+  // input field
+  input.value = "";
   updatepage();
 }
 
@@ -52,6 +81,15 @@ function updatepage() {
 
   var image = document.getElementById("hangmanImage");
   image.src = "images/hangman" + guess_count + ".gif";
+  
+  var used = document.getElementById("usedletters");
+  if (wonGame() == false && guess_count == 0) {
+    used.style.color = "red";
+    used.innerHTML = "Whomp Whomp :/"; 
+  } else if (wonGame() == true) {
+    used.style.color = "green";
+    used.innerHTML = "Congrats"; 
+  }
 }
 
 // Gives a clue
@@ -75,26 +113,3 @@ function giveClue() {
 
   console.log("Clue: " + clueText);
 }
-
-function wonGame() {
-  var clue = document.getElementById("clue").innerHTML;
-
-  // if no more underscores then you win
-  if (clue.indexOf("_") === -1) {
-    return true;
-  }
-
-  return false;
-}
-
-//checks for if you win or not
-document.addEventListener("keyup", function () {
-  if (wonGame()) {
-    document.getElementById("usedletters").style.color = "green";
-    document.getElementById("usedletters").innerHTML = "Congrats";
-  }
-  else if (guess_count === 0) {
-    document.getElementById("usedletters").style.color = "red";
-    document.getElementById("usedletters").innerHTML = "Whomp Whomp :/";
-  }
-});
