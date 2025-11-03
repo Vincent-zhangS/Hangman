@@ -21,7 +21,7 @@ function newGame() {
     for (var i = 0; i < word.length; i++) {
         spaced_word += word[i] + " ";
     }
-    updatePage();
+    updatepage();
 }
 
 function guessLetter() {
@@ -59,6 +59,15 @@ function guessLetter() {
   // input field
   input.value = "";
   updatepage();
+}
+//this was missing so the win and lose message wasnt working lol
+function wonGame() {
+  for (var i = 0; i < word.length; i++) {
+    if (!guesses.toLowerCase().includes(word.charAt(i).toLowerCase())) {
+      return false; //havent guessed all letters
+    }
+  }
+  return true; //guess all letters
 }
 
 function updatepage() {
